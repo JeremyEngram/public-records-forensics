@@ -4,26 +4,39 @@
 
 # Function to search court records
 search_court_records() {
+    read -p "Enter the keyword to search in court records: " keyword
+    read -p "Enter the file name of court records: " filename
     echo "Searching court records..."
-    # Add your logic for searching court records here
+    grep "$keyword" "$filename"
+    read -p "Press Enter to continue..."
 }
 
 # Function to search property records
 search_property_records() {
+    read -p "Enter the keyword to search in property records: " keyword
+    read -p "Enter the file name of property records: " filename
     echo "Searching property records..."
-    # Add your logic for searching property records here
+    awk -F',' -v pattern="$keyword" '$0 ~ pattern {print $1,$3}' "$filename"
+    read -p "Press Enter to continue..."
 }
 
 # Function to search business registrations
 search_business_registrations() {
+    read -p "Enter the URL of the business registrations API: " url
     echo "Searching business registrations..."
-    # Add your logic for searching business registrations here
+    curl "$url"
+    read -p "Press Enter to continue..."
 }
 
 # Function to search government databases
 search_government_databases() {
+    read -p "Enter the URL of the government database: " url
     echo "Searching government databases..."
-    # Add your logic for searching government databases here
+    wget -O temp_file "$url"
+    file temp_file
+    strings temp_file
+    rm temp_file
+    read -p "Press Enter to continue..."
 }
 
 # Main menu
@@ -41,19 +54,15 @@ while true; do
     case $choice in
         1)
             search_court_records
-            read -p "Press Enter to continue..."
             ;;
         2)
             search_property_records
-            read -p "Press Enter to continue..."
             ;;
         3)
             search_business_registrations
-            read -p "Press Enter to continue..."
             ;;
         4)
             search_government_databases
-            read -p "Press Enter to continue..."
             ;;
         0)
             echo "Exiting..."
@@ -61,7 +70,6 @@ while true; do
             ;;
         *)
             echo "Invalid option. Please try again."
-            read -p "Press Enter to continue..."
             ;;
     esac
 done
