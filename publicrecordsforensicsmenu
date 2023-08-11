@@ -1,0 +1,48 @@
+    log_message "Searching property records for keyword: $keyword"
+    grep "$keyword" "$filename"
+    log_message "Search in property records complete."
+    read -p "Press Enter to continue..."
+}
+
+# Function to search business records
+search_business_records() {
+    read -p "Enter the keyword to search in business records: " keyword
+    read -p "Enter the file name of business records: " filename
+    log_message "Searching business records for keyword: $keyword"
+    grep "$keyword" "$filename"
+    log_message "Search in business records complete."
+    read -p "Press Enter to continue..."
+}
+
+# Main menu
+while true; do
+    clear
+    echo "Public Records Forensics"
+    echo "-----------------------"
+    echo "1. Search Court Records"
+    echo "2. Search Property Records"
+    echo "3. Search Business Records"
+    echo "4. Exit"
+    read -p "Enter your choice: " choice
+
+    case $choice in
+        1)
+            search_court_records
+            ;;
+        2)
+            search_property_records
+            ;;
+        3)
+            search_business_records
+            ;;
+        4)
+            log_message "Exiting the script."
+            echo "Goodbye!"
+            exit 0
+            ;;
+        *)
+            log_message "Invalid choice: $choice"
+            read -p "Press Enter to continue..."
+            ;;
+    esac
+done
